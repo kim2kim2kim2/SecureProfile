@@ -6,30 +6,30 @@ export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
   password: text("password").notNull(),
-  fullName: text("full_name"),
-  email: text("email"),
-  phone: text("phone"),
-  bio: text("bio"),
-  profileImage: text("profile_image"),
+  fullName: text("full_name").notNull().default(""),
+  email: text("email").notNull().default(""),
+  phone: text("phone").notNull().default(""),
+  bio: text("bio").notNull().default(""),
+  profileImage: text("profile_image").notNull().default(""),
   socialLinks: jsonb("social_links").$type<{
     facebook?: string;
     twitter?: string;
     instagram?: string;
     linkedin?: string;
-  }>(),
-  darkMode: text("dark_mode").default("auto")
+  }>().notNull().default({}),
+  darkMode: text("dark_mode").notNull().default("auto")
 });
 
 export const galleries = pgTable("galleries", {
   id: serial("id").primaryKey(),
   userId: integer("user_id").notNull(),
   image: text("image").notNull(),
-  thumbnail: text("thumbnail"),
+  thumbnail: text("thumbnail").notNull().default(""),
   creativityValue: integer("creativity_value").notNull(),
   excitementValue: integer("excitement_value").notNull(),
-  jinnification: boolean("jinnification").default(false),
-  description: text("description"),
-  createdAt: timestamp("created_at").defaultNow()
+  jinnification: boolean("jinnification").notNull().default(false),
+  description: text("description").notNull().default(""),
+  createdAt: timestamp("created_at").notNull().defaultNow()
 });
 
 export const insertUserSchema = createInsertSchema(users).pick({

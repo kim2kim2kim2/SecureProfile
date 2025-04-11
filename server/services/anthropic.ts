@@ -59,10 +59,18 @@ export async function analyzeImage(options: ImageAnalysisOptions): Promise<strin
       ],
     });
     
-    return response.content[0].text;
-  } catch (error) {
+    if (response.content[0].type === 'text') {
+      return response.content[0].text;
+    } else {
+      throw new Error("Uventet respons fra Claude API");
+    }
+  } catch (error: unknown) {
     console.error("Error analyzing image with Anthropic:", error);
-    throw new Error(`Kunne ikke analysere bildet: ${error.message}`);
+    if (error instanceof Error) {
+      throw new Error(`Kunne ikke analysere bildet: ${error.message}`);
+    } else {
+      throw new Error("Kunne ikke analysere bildet: Ukjent feil");
+    }
   }
 }
 

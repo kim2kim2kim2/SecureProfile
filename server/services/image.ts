@@ -49,9 +49,13 @@ export async function resizeImage(inputPath: string, outputPath: string): Promis
       .toFile(outputPath);
     
     return outputPath;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error resizing image:', error);
-    throw new Error(`Kunne ikke endre størrelse på bildet: ${error.message}`);
+    if (error instanceof Error) {
+      throw new Error(`Kunne ikke endre størrelse på bildet: ${error.message}`);
+    } else {
+      throw new Error('Kunne ikke endre størrelse på bildet: Ukjent feil');
+    }
   }
 }
 

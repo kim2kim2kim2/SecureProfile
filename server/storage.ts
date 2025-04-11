@@ -59,7 +59,9 @@ export class MemStorage implements IStorage {
       bio: "",
       profileImage: "",
       phone: "",
-      socialLinks: {}
+      socialLinks: {},
+      fullName: insertUser.fullName || "",
+      email: insertUser.email || ""
     };
     this.users.set(id, user);
     return user;
@@ -103,7 +105,11 @@ export class MemStorage implements IStorage {
     const newItem: Gallery = {
       ...galleryItem,
       id,
-      createdAt: new Date()
+      createdAt: new Date(),
+      // Ensure required fields have values
+      thumbnail: galleryItem.thumbnail || "",
+      jinnification: galleryItem.jinnification || false,
+      description: galleryItem.description || ""
     };
     
     this.galleryItems.set(id, newItem);
