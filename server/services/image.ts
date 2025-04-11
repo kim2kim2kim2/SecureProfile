@@ -72,9 +72,13 @@ export async function createThumbnail(inputPath: string, outputPath: string): Pr
       .toFile(outputPath);
     
     return outputPath;
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Error creating thumbnail:', error);
-    throw new Error(`Kunne ikke lage miniatyrbilde: ${error.message}`);
+    if (error instanceof Error) {
+      throw new Error(`Kunne ikke lage miniatyrbilde: ${error.message}`);
+    } else {
+      throw new Error('Kunne ikke lage miniatyrbilde: Ukjent feil');
+    }
   }
 }
 

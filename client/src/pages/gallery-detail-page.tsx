@@ -36,10 +36,10 @@ export default function GalleryDetailPage() {
   const { data: galleryItem, isLoading, error } = useQuery<Gallery>({
     queryKey: [`/api/gallery/${id}`],
     queryFn: getQueryFn({ on401: "throw" }),
-    onError: (error) => {
+    onError: (err: Error) => {
       toast({
         title: "Feil ved lasting av bilde",
-        description: (error as Error).message,
+        description: err.message,
         variant: "destructive",
       });
       setLocation("/gallery");
